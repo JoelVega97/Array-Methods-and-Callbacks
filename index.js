@@ -34,7 +34,7 @@ function getFinals(data) {
  return finalsArr
 };
 
-// console.log(getFinals(fifaData))
+console.log(getFinals(fifaData))
 
 //DONE ^^ 
 
@@ -54,16 +54,16 @@ console.log(getYears(getFinals))
 /* Task 4: Implement a higher-order function called `getWinners`, that accepts the callback function `getFinals()` and determine the winner (home or away) of each `finals` game. Return the name of all winning countries in an array called `winners` */ 
 
 function getWinners(finalsCB) {
-    let winnersArr = []
+    let winners = []
     finalsCB(fifaData).forEach(function(item){
         if (item["Home Team Goals"] > item["Away Team Goals"]) {
-            return winnersArr.push(item["Home Team Name"]) 
+            winners.push(item["Home Team Name"]) 
         }
         else if(item["Away Team Goals"] > item["Home Team Goals"]){
-            return winnersArr.push(item["Away Team Name"])
+            winners.push(item["Away Team Name"])
         }
     })
-    return winnersArr
+    return winners
 };
 
 console.log(getWinners(getFinals));
@@ -78,23 +78,25 @@ Parameters:
  */
 
 function getWinnersByYear(winCB,yearsCB) {
- winCB(fifaData)
- yearsCB(fifaData)
- return `In ${yearsCB}, ${winCB} won the world cup!`
+    const winner = winCB(getFinals)
+    const year = yearsCB(getFinals)
+ return winner.map((item, index) => {
+ return `In ${year[index]} , ${item} won the world cup!`
+})
 };
 
-console.log(getWinnersByYear(getWinners(),getYears()))
+// console.log(getWinnersByYear(getWinners,getYears))
 
 
 /* Task 6: Write a function called `getAverageGoals` that accepts a parameter `data` and returns the the average number of home team goals and away team goals scored per match (Hint: use .reduce and do this in 2 steps) */
 
-function getAverageGoals(/* code here */) {
-
-    /* code here */
-
+function getAverageGoals(data) {
+   return data.reduce(function(accumulator,item){
+        return accumulator + (item["Home Team Goals"] + item["Away Team Goals"]) / data.length
+    },0);
 };
 
-getAverageGoals();
+console.log(getAverageGoals(fifaData));
 
 /// STRETCH 🥅 //
 
